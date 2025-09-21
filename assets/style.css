@@ -1,0 +1,203 @@
+/* ======================
+   GLOBAL STYLES
+====================== */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f6fa;
+  color: #333;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ======================
+   NAVBAR
+====================== */
+.navbar {
+  background: #111;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar .logo {
+  color: #fff;
+  font-size: 22px;
+  font-weight: bold;
+}
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+.navbar ul li a {
+  color: #fff;
+  font-weight: 500;
+}
+.navbar ul li a:hover {
+  color: #f39c12;
+}
+
+/* ======================
+   HERO SECTION
+====================== */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #ff8c00, #e74c3c);
+  color: #fff;
+}
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+.hero p {
+  font-size: 18px;
+}
+
+/* ======================
+   EVENT CARDS
+====================== */
+.event-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 40px;
+}
+.event-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+.event-card:hover {
+  transform: translateY(-5px);
+}
+.event-card h3 {
+  margin-top: 0;
+  color: #e67e22;
+}
+.event-card p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+/* ======================
+   AUTH PAGES (LOGIN/SIGNUP)
+====================== */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  padding: 20px;
+  gap: 40px;
+}
+.form-section {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 350px;
+}
+.form-section h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+.form-section input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+}
+.form-section .btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 6px;
+  background: #e67e22;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+.form-section .btn:hover {
+  background: #d35400;
+}
+.btn-google {
+  background: #fff;
+  color: #444;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-google:hover {
+  background: #f7f7f7;
+}
+.signup {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* ======================
+   IMAGE SECTION (LOGIN/SIGNUP)
+====================== */
+.image-section img {
+  max-width: 250px;
+  border-radius: 12px;
+}
+
+/* ======================
+   DASHBOARD
+====================== */
+.dashboard {
+  padding: 40px;
+}
+.dashboard h2 {
+  margin-bottom: 20px;
+}
+.logout-btn {
+  background: #c0392b;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.logout-btn:hover {
+  background: #a93226;
+}
+/* POPUP MESSAGE after loggin-in or Signing-uP*/
+.popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #2ecc71;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  animation: fadeInOut 4s ease forwards;
+  z-index: 9999;
+}
+
+@keyframes fadeInOut {
+  0%   { opacity: 0; transform: translateY(-20px); }
+  10%  { opacity: 1; transform: translateY(0); }
+  90%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
