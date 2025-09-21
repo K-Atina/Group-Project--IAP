@@ -1,7 +1,7 @@
 <?php
 // Backend/src/Services/EmailService.php
 
-require_once __DIR__ . '/../../../../vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -13,8 +13,8 @@ class EmailService {
     private $fromName;
     
     // REPLACE THESE WITH YOUR ACTUAL GMAIL DETAILS
-    private $gmailUsername = "";        // Your Gmail address
-    private $gmailPassword = "";   // Your Gmail App Password
+    private $gmailUsername = "kellieatina@gmail.com";        // Your Gmail address
+    private $gmailPassword = "ntnyeymgamjeztiu";   // Your Gmail App Password
     
     public function __construct() {
         $this->mailer = new PHPMailer(true);
@@ -39,13 +39,21 @@ class EmailService {
         }
     }
 
+    private function getBaseUrl() {
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+        $host = $_SERVER['HTTP_HOST']; // localhost or domain
+        $projectFolder = "/IAP_Project"; // adjust if your folder name changes
+        return $protocol . "://" . $host . $projectFolder;
+    
+    }
+
     public function sendVerificationEmail($userEmail, $userName, $verificationToken) {
         try {
             $this->mailer->clearAddresses();
             $this->mailer->addAddress($userEmail, $userName);
 
-            $verificationLink = "http://localhost:8000/verify.php?token=" . $verificationToken;
-            
+            $verificationLink = $this->getBaseUrl() . "/verify.php?token=" . $verificationToken;
+
             $this->mailer->isHTML(true);
             $this->mailer->Subject = 'Verify Your MyTikiti Account';
             $this->mailer->Body = "
