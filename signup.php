@@ -1,8 +1,11 @@
 <?php
 session_start();
-require_once "classes/User.php";
+require_once "Backend/src/Config/Database.php";
+require_once "Backend/src/Models/User.php";
 
-$user = new User();
+$database = new Database();
+
+$user = new User($database);
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -12,21 +15,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm = trim($_POST["confirm_password"]);
 
     if ($password !== $confirm) {
-        $message = "❌ Passwords do not match!";
+        $message = " Passwords do not match!";
     } elseif ($user->emailExists($email)) {
-        $message = "⚠️ Email already registered!";
+        $message = " Email already registered!";
     } else {
         if ($user->register($fullname, $email, $password)) {
             $_SESSION["user"] = $fullname;
-            header("Location: dashboard.php");
-            exit;
+            header("Location: login.php");
+            exit();
         } else {
-            $message = "⚠️ Registration failed.";
+            $message = " Registration failed.";
         }
     }
 }
 ?>
-<!-- The same HTML form from before -->
+
 
 ?>
 <!DOCTYPE html>
@@ -34,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Sign Up - MyTikiti</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="Backend\public\assets\style.css">
 </head>
 <body>
     <div class="auth-container">

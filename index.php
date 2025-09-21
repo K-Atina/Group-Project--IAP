@@ -7,7 +7,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyTikiti - Landing Page</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="Backend\public\assets\style.css">
 </head>
 <body>
     <nav class="navbar">
@@ -62,7 +62,7 @@ session_start();
         </div>
     </section>
 
-    <!-- ✅ Show popup message -->
+    <!-- Show popup message -->
     <?php if (isset($_SESSION["success"])): ?>
         <div class="popup"><?= $_SESSION["success"]; ?></div>
         <?php unset($_SESSION["success"]); ?>

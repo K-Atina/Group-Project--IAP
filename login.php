@@ -1,8 +1,10 @@
 <?php
 session_start();
-require_once "classes/User.php";
+require_once "Backend/src/Config/Database.php";
+require_once "Backend/src/Models/User.php";
 
-$user = new User();
+$database = new Database();
+$user = new User($database);
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -12,17 +14,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $loggedInUser = $user->login($email, $password);
 
     if ($loggedInUser) {
-        // ✅ use full_name (correct DB column)
+        
         $_SESSION["user"] = $loggedInUser["full_name"];
+        $_SESSION["user_id"] = $loggedInUser["id"];
+        $_SESSION["success"] = " Congratulations {$loggedInUser['full_name']} for logging in!";
 
-        // ✅ optional: set success message right here
-        $_SESSION["success"] = "🎉 Congratulations {$_SESSION['user']} for logging in!";
+        // Clean output buffer before redirect
+        if (ob_get_level()) {
+            ob_end_clean();
+        }
 
         // redirect to dashboard.php (which will bounce back to index.php)
         header("Location: dashboard.php");
-        exit;
+        exit();
     } else {
-        $error = "❌ Invalid login credentials.";
+        $error = " Invalid login credentials.";
     }
 }
 ?>
@@ -31,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Login - MyTikiti</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="Backend\public\assets\style.css">
 </head>
 <body>
     <div class="auth-container">
