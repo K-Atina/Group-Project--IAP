@@ -1,0 +1,12 @@
+# Laravel
+Backend/vendor/
+Backend/node_modules/
+Backend/public/storage
+Backend/storage/*.key
+Backend/.env
+Backend/.phpunit.result.cache
+Backend/storage/logs/
+Backend/storage/framework/cache/
+Backend/storage/framework/sessions/
+Backend/storage/framework/views/
+Backend/bootstrap/cache/*.php
