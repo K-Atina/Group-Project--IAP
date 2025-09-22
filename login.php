@@ -65,7 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Login - MyTikiti</title>
-    <link rel="stylesheet" href="Backend\public\assets\style.css">
+    <!-- FIXED: Use forward slashes for web URLs -->
+    <link rel="stylesheet" href="Backend/public/assets/style.css">
     <style>
         .verification-notice {
             color: #f39c12;
@@ -115,14 +116,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php if (!empty($error)): ?>
                 <?php if ($needsVerification): ?>
                     <div class="verification-notice">
-                        <strong>📧 Email Verification Required</strong><br>
+                        <strong>Email Verification Required</strong><br>
                         <?php echo htmlspecialchars($error); ?>
                         <div class="verification-actions">
                             <a href="resend-verification.php<?php echo !empty($userEmail) ? '?email=' . urlencode($userEmail) : ''; ?>">
-                                📨 Resend Verification Email
+                                Resend Verification Email
                             </a>
                             <span style="color: #bdc3c7;">|</span>
-                            <a href="signup.php">🔄 Create New Account</a>
+                            <a href="signup.php">Create New Account</a>
                         </div>
                     </div>
                 <?php else: ?>
@@ -154,7 +155,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
         <div class="image-section">
-            <img src="https://via.placeholder.com/120" alt="Login Illustration">
+            <!-- FIXED: Replace broken placeholder with custom styled placeholder -->
+            <div class="banner-placeholder" style="width: 250px; height: 200px; font-size: 48px;">
+                🔐
+            </div>
         </div>
     </div>
 </body>
