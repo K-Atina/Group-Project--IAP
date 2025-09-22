@@ -5,7 +5,6 @@ require_once "Backend/src/Models/User.php";
 require_once "Backend/src/Services/EmailService.php";
 
 $database = new Database();
-
 $user = new User($database);
 $emailService = new EmailService();
 $message = "";
@@ -54,14 +53,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Sign Up - MyTikiti</title>
-    <link rel="stylesheet" href="Backend\public\assets\style.css">
+    <!-- FIXED: Use forward slashes for web URLs -->
+    <link rel="stylesheet" href="Backend/public/assets/style.css">
     <style>
         .success-message {
             color: #27ae60;
@@ -113,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php echo htmlspecialchars($message); ?>
                     </div>
                     <div class="verification-info">
-                        <strong>📧 What's Next?</strong><br>
+                        <strong>What's Next?</strong><br>
                         • Check your email inbox (and spam folder)<br>
                         • Click the verification link in the email<br>
                         • Return to login once verified<br>
@@ -157,7 +155,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
         <div class="image-section">
-            <img src="https://via.placeholder.com/120" alt="Sign Up Illustration">
+            <!-- FIXED: Replace broken placeholder with custom styled placeholder -->
+            <div class="banner-placeholder" style="width: 250px; height: 200px; font-size: 48px;">
+                📝
+            </div>
         </div>
     </div>
 </body>
