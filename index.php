@@ -1,13 +1,12 @@
-<?php
-session_start();
-?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyTikiti - Landing Page</title>
-    <link rel="stylesheet" href="Backend\public\assets\style.css">
+    <!-- FIXED: Use forward slashes for web URLs -->
+    <link rel="stylesheet" href="Backend/public/assets/style.css">
 </head>
 <body>
     <nav class="navbar">
@@ -41,26 +40,38 @@ session_start();
         <?php endif; ?>
     </section>
 
-    <section class="events">
-        <div class="card">
-            <img src="https://via.placeholder.com/200x120">
-            <h3>Event Title</h3>
-            <p>Event Venue | Event Time</p>
-            <button>View Event</button>
+    <!-- FIXED: Use proper CSS classes and add image placeholders -->
+    <div class="event-container">
+        <div class="event-card">
+            <div class="event-image-placeholder music">🎵 Concert</div>
+            <div class="event-card-content">
+                <h3>Summer Music Festival 2025</h3>
+                <p>Nairobi Sports Club | March 15, 2025 - 7:00 PM</p>
+                <p style="color: #e67e22; font-weight: bold;">KSH 2,500</p>
+                <button class="btn">View Event</button>
+            </div>
         </div>
-        <div class="card">
-            <img src="https://via.placeholder.com/200x120">
-            <h3>Event Title</h3>
-            <p>Event Venue | Event Time</p>
-            <button>View Event</button>
+        
+        <div class="event-card">
+            <div class="event-image-placeholder theater">🎭 Theater</div>
+            <div class="event-card-content">
+                <h3>Shakespeare in the Park</h3>
+                <p>Uhuru Gardens | March 22, 2025 - 6:00 PM</p>
+                <p style="color: #e67e22; font-weight: bold;">KSH 1,800</p>
+                <button class="btn">View Event</button>
+            </div>
         </div>
-        <div class="card">
-            <img src="https://via.placeholder.com/200x120">
-            <h3>Event Title</h3>
-            <p>Event Venue | Event Time</p>
-            <button>View Event</button>
+        
+        <div class="event-card">
+            <div class="event-image-placeholder sports">🏃‍♂️ Sports</div>
+            <div class="event-card-content">
+                <h3>Nairobi Marathon 2025</h3>
+                <p>City Center | April 5, 2025 - 6:00 AM</p>
+                <p style="color: #e67e22; font-weight: bold;">KSH 500</p>
+                <button class="btn">View Event</button>
+            </div>
         </div>
-    </section>
+    </div>
 
     <!-- Show popup message -->
     <?php if (isset($_SESSION["success"])): ?>
