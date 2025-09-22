@@ -13,8 +13,8 @@ class EmailService {
     private $fromName;
     
     // REPLACE THESE WITH YOUR ACTUAL GMAIL DETAILS
-    private $gmailUsername = "";        // Your Gmail address
-    private $gmailPassword = "";   // Your Gmail App Password
+    private $gmailUsername = "vanessagikebe@gmail.com";        // Your Gmail address
+    private $gmailPassword = "dxmt nzbm wofw ssbj";   // Your Gmail App Password
     
     public function __construct() {
         $this->mailer = new PHPMailer(true);
