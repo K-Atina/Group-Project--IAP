@@ -34,7 +34,7 @@ exit();
     </style>
 </head>
 <body>
-    <?php
+    <?php 
     if (isset($_SESSION["success"])) {
         echo "<div class='popup'>" . htmlspecialchars($_SESSION["success"]) . "</div>";
         unset($_SESSION["success"]); // clears message after showing once
