@@ -1,7 +1,7 @@
 <?php
 // Backend/src/Services/EmailService.php
 
-require_once __DIR__ . '/../../../../vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -12,16 +12,39 @@ class EmailService {
     private $fromEmail;
     private $fromName;
     
-    // REPLACE THESE WITH YOUR ACTUAL GMAIL DETAILS
-    private $gmailUsername = "vanessagikebe@gmail.com";        // Your Gmail address
-    private $gmailPassword = "dxmt nzbm wofw ssbj";   // Your Gmail App Password
+    // Email credentials loaded from environment variables
+    private $gmailUsername;
+    private $gmailPassword;
     
     public function __construct() {
+        // Load environment variables
+        $this->loadEnvVariables();
+        
         $this->mailer = new PHPMailer(true);
         $this->fromEmail = $this->gmailUsername;
         $this->fromName = "MyTikiti Platform";
         
         $this->configureSMTP();
+    }
+
+    private function loadEnvVariables() {
+        $envFile = __DIR__ . '/../../../.env';
+        if (file_exists($envFile)) {
+            $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            foreach ($lines as $line) {
+                if (strpos($line, '#') === 0) continue; // Skip comments
+                list($key, $value) = explode('=', $line, 2);
+                $_ENV[trim($key)] = trim($value);
+            }
+        }
+        
+        // Set Gmail credentials from environment variables
+        $this->gmailUsername = $_ENV['GMAIL_USERNAME'] ?? '';
+        $this->gmailPassword = $_ENV['GMAIL_PASSWORD'] ?? '';
+        
+        if (empty($this->gmailUsername) || empty($this->gmailPassword)) {
+            throw new Exception("Gmail credentials not found in environment variables");
+        }
     }
 
     private function configureSMTP() {
@@ -39,13 +62,21 @@ class EmailService {
         }
     }
 
+    private function getBaseUrl() {
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+        $host = $_SERVER['HTTP_HOST']; // localhost or domain
+        $projectFolder = "/IAP_Project"; // adjust if your folder name changes
+        return $protocol . "://" . $host . $projectFolder;
+    
+    }
+
     public function sendVerificationEmail($userEmail, $userName, $verificationToken) {
         try {
             $this->mailer->clearAddresses();
             $this->mailer->addAddress($userEmail, $userName);
 
-            $verificationLink = "http://localhost:8000/verify.php?token=" . $verificationToken;
-            
+            $verificationLink = $this->getBaseUrl() . "/verify.php?token=" . $verificationToken;
+
             $this->mailer->isHTML(true);
             $this->mailer->Subject = 'Verify Your MyTikiti Account';
             $this->mailer->Body = "

@@ -1,5 +1,4 @@
 <?php
-// Save as test_connection.php in your project root
 
 echo "<h2>Database Connection Test</h2>";
 

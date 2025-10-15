@@ -5,6 +5,35 @@ class User {
 
     public function __construct(Database $database) {
         $this->conn = $database->getConnection();
+        $this->initializeTable();
+    }
+
+    private function initializeTable() {
+        // Create table if it doesn't exist
+        $sql = "
+        CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            full_name VARCHAR(100) NOT NULL,
+            email VARCHAR(150) NOT NULL UNIQUE,
+            password VARCHAR(255) NOT NULL,
+            email_verified TINYINT(1) DEFAULT 0,
+            verification_token VARCHAR(255) DEFAULT NULL,
+            token_expires_at DATETIME DEFAULT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB;
+        ";
+        $this->conn->exec($sql);
+        // Optional: ensure missing columns exist (for people who already had a basic users table)
+        $this->ensureColumn("email_verified", "ALTER TABLE users ADD COLUMN email_verified TINYINT(1) DEFAULT 0");
+        $this->ensureColumn("verification_token", "ALTER TABLE users ADD COLUMN verification_token VARCHAR(255) DEFAULT NULL");
+        $this->ensureColumn("token_expires_at", "ALTER TABLE users ADD COLUMN token_expires_at DATETIME DEFAULT NULL");
+    }
+
+    private function ensureColumn($column, $alterSQL) {
+        $result = $this->conn->query("SHOW COLUMNS FROM users LIKE '$column'");
+        if ($result->rowCount() === 0) {
+            $this->conn->exec($alterSQL);
+        }
     }
 
     // Register user
@@ -39,10 +68,6 @@ class User {
         
         return $stmt->rowCount() > 0;
     }
-
-    // =============================================
-    // EMAIL VERIFICATION METHODS (NEWLY ADDED)
-    // =============================================
 
     // Generate verification token
     public function generateVerificationToken($userId) {
