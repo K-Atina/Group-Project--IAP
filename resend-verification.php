@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <ul>
             <li><a href="index.php">Home</a></li>
         </ul>
-        <a href="login.php" class="btn">Log In</a>
+        <a href="login.php" class="navbar-btn">Log In</a>
     </nav>
 
     <div class="auth-container">

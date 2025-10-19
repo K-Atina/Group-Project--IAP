@@ -44,6 +44,32 @@ a:hover {
   color: #f39c12;
 }
 
+/* Navbar button styling */
+.navbar .btn, .navbar .navbar-btn {
+  background: #e67e22;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.navbar .btn:hover, .navbar .navbar-btn:hover {
+  background: #d35400;
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3);
+}
+
+.navbar .btn:active, .navbar .navbar-btn:active {
+  transform: translateY(0);
+}
+
 /* ======================
    HERO SECTION
 ====================== */
@@ -104,14 +130,14 @@ a:hover {
   align-items: center;
   min-height: 90vh;
   padding: 20px;
-  gap: 40px;
 }
 .form-section {
   background: #fff;
-  padding: 30px;
+  padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 350px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
 }
 .form-section h2 {
   margin-bottom: 20px;
@@ -158,12 +184,9 @@ a:hover {
 }
 
 /* ======================
-   IMAGE SECTION (LOGIN/SIGNUP)
+   IMAGE SECTION (LOGIN/SIGNUP) - REMOVED
 ====================== */
-.image-section img {
-  max-width: 250px;
-  border-radius: 12px;
-}
+/* Image section removed for cleaner auth forms */
 
 /* ======================
    DASHBOARD
@@ -565,4 +588,253 @@ button[onclick*="signup.php"]:hover {
     font-size: 16px;
     margin: 8px;
   }
+  
+  .navbar .btn, .navbar .navbar-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+  
+  /* Auth forms responsive */
+  .auth-container {
+    padding: 15px;
+    min-height: 85vh;
+  }
+  
+  .form-section {
+    padding: 25px;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* ======================
+   ALERTS & MESSAGES
+====================== */
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.alert-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+
+/* ======================
+   STEP INDICATOR RESPONSIVE
+====================== */
+@media (max-width: 768px) {
+  .step-indicator {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .step {
+    margin: 5px 0;
+    width: 200px;
+    text-align: center;
+  }
+  
+  .otp-input {
+    width: 150px;
+    font-size: 20px;
+  }
+}
+
+/* ======================
+   OAUTH BUTTONS
+====================== */
+.btn-google, .btn-microsoft {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 24px;
+  margin: 10px 0;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-google {
+  border-color: #dadce0;
+}
+
+.btn-microsoft {
+  border-color: #e1e5f1;
+}
+
+.btn-google:hover {
+  background: #f8f9fa;
+  border-color: #4285f4;
+  box-shadow: 0 4px 12px rgba(66, 133, 244, 0.15);
+  transform: translateY(-2px);
+}
+
+.btn-microsoft:hover {
+  background: #f3f6fc;
+  border-color: #0078d4;
+  box-shadow: 0 4px 12px rgba(0, 120, 212, 0.15);
+  transform: translateY(-2px);
+}
+
+.btn-google:active, .btn-microsoft:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.btn-google svg, .btn-microsoft svg {
+  margin-right: 12px;
+  transition: transform 0.2s ease;
+}
+
+.btn-google:hover svg, .btn-microsoft:hover svg {
+  transform: scale(1.1);
+}
+
+/* Loading state for OAuth buttons */
+.btn-google.loading, .btn-microsoft.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.btn-google.loading::after, .btn-microsoft.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  border-top-color: #666;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Professional gradient effect on hover */
+.btn-google::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(66, 133, 244, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.btn-microsoft::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 120, 212, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.btn-google:hover::before {
+  left: 100%;
+}
+
+.btn-microsoft:hover::before {
+  left: 100%;
+}
+
+/* Responsive OAuth buttons */
+@media (max-width: 768px) {
+  .btn-google, .btn-microsoft {
+    font-size: 15px;
+    padding: 12px 20px;
+    font-weight: 500;
+  }
+  
+  .btn-google svg, .btn-microsoft svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-google, .btn-microsoft {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+  
+  .btn-google svg, .btn-microsoft svg {
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+  }
+}
+
+/* ======================
+   PASSWORD VISIBILITY TOGGLE
+====================== */
+.password-input-wrapper {
+  position: relative;
+  display: block;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #7f8c8d;
+  font-size: 18px;
+  user-select: none;
+  transition: color 0.3s ease;
+  z-index: 2;
+}
+
+.password-toggle-btn:hover {
+  color: #e67e22;
+}
+
+.password-toggle-btn.active {
+  color: #e67e22;
+}
+
+.password-input-wrapper input[type="password"],
+.password-input-wrapper input[type="text"] {
+  padding-right: 45px !important;
+}
+
+/* For auth forms */
+.form-section .password-input-wrapper input {
+  width: 100%;
+  box-sizing: border-box;
 }

@@ -110,6 +110,51 @@ class EmailService {
         }
     }
     
+    public function sendPasswordResetOTP($userEmail, $userName, $otp) {
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->addAddress($userEmail, $userName);
+
+            $this->mailer->isHTML(true);
+            $this->mailer->Subject = 'Password Reset OTP - MyTikiti';
+            $this->mailer->Body = "
+            <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>
+                <div style='background: #e74c3c; color: white; padding: 20px; text-align: center;'>
+                    <h1>Password Reset Request</h1>
+                </div>
+                <div style='padding: 30px; background: #f9f9f9;'>
+                    <h2>Hello " . htmlspecialchars($userName) . "!</h2>
+                    <p>You requested to reset your password for your MyTikiti account.</p>
+                    
+                    <div style='text-align: center; margin: 30px 0;'>
+                        <div style='background: #2c3e50; color: white; padding: 20px; border-radius: 10px; font-size: 32px; font-weight: bold; letter-spacing: 5px; display: inline-block;'>
+                            " . $otp . "
+                        </div>
+                    </div>
+                    
+                    <p><strong>Your OTP Code:</strong> " . $otp . "</p>
+                    <p>Enter this code on the password reset page to continue.</p>
+                    
+                    <p><strong>Important:</strong></p>
+                    <ul>
+                        <li>This OTP expires in 15 minutes</li>
+                        <li>Don't share this code with anyone</li>
+                        <li>If you didn't request this reset, ignore this email</li>
+                    </ul>
+                </div>
+                <div style='text-align: center; padding: 20px; font-size: 12px; color: #666;'>
+                    &copy; 2025 MyTikiti Platform. All rights reserved.
+                </div>
+            </div>";
+
+            $this->mailer->send();
+            return true;
+        } catch (Exception $e) {
+            error_log("OTP Email failed: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function testConnection() {
         try {
             $this->mailer->smtpConnect();
