@@ -4,7 +4,7 @@ class Database{
     private $hostname="127.0.0.1";   
     private $database="mytikiti";    
     private $user="root";        
-    private $password="2004";  
+    private $password="kelvin";  
     private $conn;
     
     public function __construct(){
