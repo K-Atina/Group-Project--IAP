@@ -23,9 +23,9 @@ session_start();
             <span style="color:#f39c12; margin-right:15px;">
                 Welcome, <?= htmlspecialchars($_SESSION["user"]); ?>
             </span>
-            <a href="logout.php" class="btn">Logout</a>
+            <a href="logout.php" class="navbar-btn">Logout</a>
         <?php else: ?>
-            <a href="login.php" class="btn">Log In</a>
+            <a href="login.php" class="navbar-btn">Log In</a>
         <?php endif; ?>
     </nav>
 
