@@ -1,5 +1,7 @@
 # Environment variables (contains sensitive data)
 .env
+.env.example
+
 
 # Vendor directory (composer dependencies)
 vendor/
