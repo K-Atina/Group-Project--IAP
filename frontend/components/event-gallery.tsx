@@ -8,10 +8,10 @@ interface EventGalleryProps {
 }
 
 const images = [
-  { id: 1, url: "/placeholder.svg?key=gal1", alt: "Event main stage" },
-  { id: 2, url: "/placeholder.svg?key=gal2", alt: "Crowd view" },
-  { id: 3, url: "/placeholder.svg?key=gal3", alt: "Performance" },
-  { id: 4, url: "/placeholder.svg?key=gal4", alt: "Venue interior" },
+  { id: 1, url: "/music-festival-outdoor-stage-crowd.jpg", alt: "Event main stage" },
+  { id: 2, url: "/concert-stage-lights-music-festival.jpg", alt: "Crowd view" },
+  { id: 3, url: "/electronic-music-festival-dj-stage-lights.jpg", alt: "Performance" },
+  { id: 4, url: "/festival-outdoor-celebration-crowd.jpg", alt: "Venue interior" },
 ]
 
 export default function EventGallery({ eventId }: EventGalleryProps) {

@@ -8,6 +8,7 @@ import { Search, Heart, MapPin, User } from "lucide-react"
 import Link from "next/link"
 import Footer from "@/components/footer"
 import TicketsCarousel from "@/components/tickets-carousel"
+import ChatBot from "@/components/chatbot"
 
 // Mock events data
 const allTickets = [
@@ -161,6 +162,9 @@ export default function BrowsePage() {
           </div>
         </div>
       </div>
+
+      {/* ChatBot */}
+      {showChat && <ChatBot onClose={() => setShowChat(false)} />}
 
       <Footer />
     </main>

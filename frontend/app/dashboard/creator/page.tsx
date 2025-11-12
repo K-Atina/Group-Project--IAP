@@ -8,12 +8,15 @@ import Footer from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { Plus, Ticket, Users, TrendingUp } from "lucide-react"
+import { Plus, Ticket, Users, TrendingUp, BarChart3, ArrowLeft } from "lucide-react"
+import OrganizerAnalytics from "@/components/organizer-analytics"
+import ChatBot from "@/components/chatbot"
 
 export default function CreatorDashboard() {
   const { user } = useAuth()
   const router = useRouter()
   const [showChat, setShowChat] = React.useState(false)
+  const [activeTab, setActiveTab] = React.useState<"overview" | "analytics">("overview")
 
   if (!user || user.role !== "creator") {
     return (
@@ -34,6 +37,18 @@ export default function CreatorDashboard() {
       <Header onOpenChat={() => setShowChat(true)} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back Button */}
+        <div className="mb-6">
+          <Button 
+            onClick={() => router.push('/')} 
+            variant="outline" 
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Home
+          </Button>
+        </div>
+
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold text-foreground">Creator Dashboard</h1>
@@ -47,8 +62,42 @@ export default function CreatorDashboard() {
           </Link>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        {/* Tab Navigation */}
+        <div className="flex gap-4 mb-8 border-b border-border">
+          <button
+            onClick={() => setActiveTab("overview")}
+            className={`pb-4 px-2 font-medium text-sm transition-colors relative ${
+              activeTab === "overview"
+                ? "text-primary"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            Overview
+            {activeTab === "overview" && (
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"></div>
+            )}
+          </button>
+          <button
+            onClick={() => setActiveTab("analytics")}
+            className={`pb-4 px-2 font-medium text-sm transition-colors relative flex items-center gap-2 ${
+              activeTab === "analytics"
+                ? "text-primary"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <BarChart3 className="w-4 h-4" />
+            Analytics & Insights
+            {activeTab === "analytics" && (
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"></div>
+            )}
+          </button>
+        </div>
+
+        {/* Tab Content */}
+        {activeTab === "overview" && (
+          <>
+            {/* Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-card rounded-xl border border-border p-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-primary/10 rounded-lg">
@@ -124,7 +173,17 @@ export default function CreatorDashboard() {
             </table>
           </div>
         </div>
+          </>
+        )}
+
+        {/* Analytics Tab */}
+        {activeTab === "analytics" && (
+          <OrganizerAnalytics organizerId={user.id} />
+        )}
       </div>
+
+      {/* ChatBot */}
+      {showChat && <ChatBot onClose={() => setShowChat(false)} />}
 
       <Footer />
     </main>

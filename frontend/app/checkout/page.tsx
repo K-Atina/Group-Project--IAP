@@ -1,15 +1,31 @@
 "use client"
 
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import CheckoutForm from "@/components/checkout-form"
 import OrderSummary from "@/components/order-summary"
 import { Card } from "@/components/ui/card"
+import { MapPin, Calendar } from "lucide-react"
+
+// Loading skeleton component
+function CheckoutSkeleton() {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-pulse">
+      <div className="lg:col-span-2 space-y-4">
+        <div className="h-96 bg-muted rounded-xl"></div>
+      </div>
+      <div className="space-y-4">
+        <div className="h-64 bg-muted rounded-xl"></div>
+      </div>
+    </div>
+  )
+}
 
 export default function CheckoutPage() {
   const [showChat, setShowChat] = useState(false)
   const [paymentStatus, setPaymentStatus] = useState<"idle" | "processing" | "success">("idle")
+  const [isLoading, setIsLoading] = useState(false)
 
   return (
     <main className="min-h-screen bg-muted/30">
@@ -34,7 +50,7 @@ export default function CheckoutPage() {
             <p className="text-muted-foreground mb-6">
               Your tickets have been confirmed and sent to your email. Check your inbox for confirmation details.
             </p>
-            <div className="bg-muted rounded-lg p-6 mb-6 text-left">
+            <div className="bg-muted rounded-lg p-6 mb-6 text-left space-y-4">
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-foreground">Confirmation #:</span>
@@ -47,6 +63,32 @@ export default function CheckoutPage() {
                 <div className="flex justify-between">
                   <span className="text-foreground">Tickets:</span>
                   <span className="font-semibold text-foreground">2x General Admission</span>
+                </div>
+              </div>
+              
+              {/* Location Info */}
+              <div className="pt-4 border-t border-border space-y-2">
+                <div className="flex items-start gap-2 text-sm">
+                  <Calendar className="w-4 h-4 mt-0.5 text-primary" />
+                  <div>
+                    <p className="font-semibold text-foreground">Date & Time</p>
+                    <p className="text-muted-foreground">June 15-17, 2025 • 6:00 PM</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2 text-sm">
+                  <MapPin className="w-4 h-4 mt-0.5 text-orange-600" />
+                  <div>
+                    <p className="font-semibold text-foreground">Venue Location</p>
+                    <p className="text-muted-foreground">Central Park Great Lawn, New York, NY</p>
+                    <a 
+                      href="https://www.google.com/maps/search/?api=1&query=Central+Park+Great+Lawn+New+York" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-xs text-orange-600 hover:underline inline-block mt-1"
+                    >
+                      View on Google Maps →
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

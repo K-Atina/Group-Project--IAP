@@ -22,7 +22,7 @@ export default function TSHAuthPage() {
     // Simple admin code verification
     if (adminCode === "ADMIN123") {
       login(email, password, "tsh")
-      router.push("/dashboard/admin")
+      router.push("/")
     } else {
       alert("Invalid admin code")
     }
