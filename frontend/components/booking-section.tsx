@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Minus, Plus } from "lucide-react"
@@ -16,6 +17,7 @@ const ticketOptions = [
 ]
 
 export default function BookingSection({ eventId }: BookingSectionProps) {
+  const router = useRouter()
   const [selectedTicket, setSelectedTicket] = useState(ticketOptions[0])
   const [quantity, setQuantity] = useState(1)
 
@@ -29,6 +31,24 @@ export default function BookingSection({ eventId }: BookingSectionProps) {
 
   const increaseQuantity = () => {
     setQuantity((prev) => Math.min(10, prev + 1))
+  }
+
+  const handleProceedToCheckout = () => {
+    // Store booking details for checkout
+    const bookingData = {
+      eventId,
+      ticketType: selectedTicket.type,
+      ticketPrice: selectedTicket.price,
+      quantity,
+      subtotal,
+      fees,
+      total
+    }
+    
+    localStorage.setItem('bookingDetails', JSON.stringify(bookingData))
+    
+    // Navigate to checkout immediately
+    router.push('/checkout')
   }
 
   return (
@@ -97,12 +117,24 @@ export default function BookingSection({ eventId }: BookingSectionProps) {
 
       {/* CTA Buttons */}
       <div className="space-y-2">
-        <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-base h-12 font-semibold">
+        <button 
+          onClick={(e) => {
+            e.preventDefault()
+            alert('Button clicked! Check console')
+            console.log('Button physically clicked!')
+            handleProceedToCheckout()
+          }}
+          type="button"
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-base h-12 font-semibold rounded-lg"
+        >
           Proceed to Checkout
-        </Button>
-        <Button variant="outline" className="w-full border-border text-foreground hover:bg-muted bg-transparent">
+        </button>
+        <button 
+          onClick={() => alert('Wishlist clicked')}
+          className="w-full border border-border text-foreground hover:bg-muted bg-transparent rounded-lg h-12"
+        >
           Add to Wishlist
-        </Button>
+        </button>
       </div>
 
       {/* Info */}

@@ -145,9 +145,6 @@ export default function EventCarousel() {
                       <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
                         <span className="text-lg font-bold text-primary">{ticket.price}</span>
                         <Button
-                          onClick={(e) => {
-                            e.preventDefault()
-                          }}
                           className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs h-8"
                         >
                           Buy

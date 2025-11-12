@@ -56,7 +56,7 @@ export default function BuyerAuthPage() {
         setSuccess("Account created! Please check your email for verification.")
       } else {
         await login(email, password, "buyer")
-        router.push("/dashboard")
+        router.push("/")
       }
     } catch (err: any) {
       setError(err.message || "An error occurred")
