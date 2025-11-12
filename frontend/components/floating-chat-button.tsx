@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { MessageCircle } from "lucide-react"
-import ChatAssistant from "./chat-assistant"
+import ChatBot from "./chatbot"
 
 export default function FloatingChatButton() {
   const [isOpen, setIsOpen] = useState(false)
@@ -18,7 +18,7 @@ export default function FloatingChatButton() {
       </button>
 
       {/* Chat modal opens when button is clicked */}
-      {isOpen && <ChatAssistant onClose={() => setIsOpen(false)} />}
+      {isOpen && <ChatBot onClose={() => setIsOpen(false)} />}
     </>
   )
 }
