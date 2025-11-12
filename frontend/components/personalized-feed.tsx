@@ -135,9 +135,6 @@ export default function PersonalizedFeed() {
                     <div className="flex items-center justify-between gap-4">
                       <span className="text-lg font-bold text-primary">{ticket.priceRange}</span>
                       <Button
-                        onClick={(e) => {
-                          e.preventDefault()
-                        }}
                         className="bg-primary hover:bg-primary/90 text-primary-foreground"
                       >
                         Buy Tickets

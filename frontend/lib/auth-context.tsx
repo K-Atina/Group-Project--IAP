@@ -91,7 +91,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await apiClient.signup(name, email, password, userType as "buyer" | "creator")
       
       if (response.success) {
-        // For signup, we don't automatically log in since email verification might be required
+        // If user data is returned, set the user (auto-login after signup)
+        if (response.user) {
+          setUser(mapApiUserToUser(response.user))
+        } else {
+          // If no user data, try to log in automatically
+          await login(email, password, role)
+        }
         console.log('Signup successful:', response.message)
       } else {
         throw new Error(response.message || 'Signup failed')

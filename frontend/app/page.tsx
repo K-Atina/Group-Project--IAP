@@ -4,7 +4,7 @@ import { useState } from "react"
 import Header from "@/components/header"
 import HeroSection from "@/components/hero-section"
 import CategoryCarousel from "@/components/category-carousel"
-import ChatAssistant from "@/components/chat-assistant"
+import ChatBot from "@/components/chatbot"
 import EventCarousel from "@/components/event-carousel"
 import PersonalizedFeed from "@/components/personalized-feed"
 import Footer from "@/components/footer"
@@ -21,7 +21,7 @@ export default function Home() {
         <HeroSection />
       </div>
       <CategoryCarousel />
-      {showChat && <ChatAssistant onClose={() => setShowChat(false)} />}
+      {showChat && <ChatBot onClose={() => setShowChat(false)} />}
       <EventCarousel />
       <PersonalizedFeed />
       <AboutSection />

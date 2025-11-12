@@ -8,6 +8,8 @@ import { useAuth } from "@/lib/auth-context"
 import TwoFactorAuth from "@/components/auth/TwoFactorAuth"
 import { Search, Calendar, MapPin, Users, DollarSign, ShoppingCart, Heart, Filter, ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import ChatBot from "@/components/chatbot"
 
 interface Event {
   id: string
@@ -40,9 +42,11 @@ interface Order {
 
 export default function BuyerDashboard() {
   const { user, logout } = useAuth()
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState<"browse" | "favorites" | "orders" | "profile">("browse")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
+  const [showChat, setShowChat] = useState(false)
   
   // Sample events data
   const [events] = useState<Event[]>([
@@ -142,19 +146,32 @@ export default function BuyerDashboard() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-background/95 backdrop-blur">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between mb-4">
+            <Button 
+              onClick={() => router.push('/')} 
+              variant="outline" 
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Home
+            </Button>
+            <div className="flex items-center gap-4">
+              <Button variant="outline" onClick={() => setShowChat(true)}>
+                Chat Support
+              </Button>
+              <Button variant="outline">
+                <ShoppingCart className="w-4 h-4 mr-2" />
+                Cart (0)
+              </Button>
+              <Button variant="outline" onClick={logout}>
+                Sign Out
+              </Button>
+            </div>
+          </div>
           <div>
             <h1 className="text-2xl font-bold text-foreground">Ticket Buyer Dashboard</h1>
             <p className="text-muted-foreground">Welcome back, {user?.name}</p>
-          </div>
-          <div className="flex items-center gap-4">
-            <Button variant="outline">
-              <ShoppingCart className="w-4 h-4 mr-2" />
-              Cart (0)
-            </Button>
-            <Button variant="outline" onClick={logout}>
-              Sign Out
-            </Button>
           </div>
         </div>
       </header>
@@ -444,6 +461,9 @@ export default function BuyerDashboard() {
           </div>
         )}
       </main>
+
+      {/* ChatBot */}
+      {showChat && <ChatBot onClose={() => setShowChat(false)} />}
     </div>
   )
 }
