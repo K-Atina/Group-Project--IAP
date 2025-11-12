@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import ChatAssistant from "@/components/chat-assistant"
+import ChatBot from "@/components/chatbot"
 import CategoryCarousel from "@/components/category-carousel"
 import { Input } from "@/components/ui/input"
 import { Music, Camera, Gamepad2, Utensils, Trophy, Briefcase, Search } from "lucide-react"
@@ -153,7 +153,7 @@ export default function CategoriesPage() {
         </div>
       </div>
 
-      {showChat && <ChatAssistant onClose={() => setShowChat(false)} />}
+      {showChat && <ChatBot onClose={() => setShowChat(false)} />}
       <Footer />
     </main>
   )
