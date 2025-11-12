@@ -1,15 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useState, lazy, Suspense } from "react"
 import { useParams } from "next/navigation"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import EventGallery from "@/components/event-gallery"
 import EventDetails from "@/components/event-details"
 import BookingSection from "@/components/booking-section"
-import RelatedEvents from "@/components/related-events"
 import { Button } from "@/components/ui/button"
 import { Share2, Heart } from "lucide-react"
+
+// Lazy load non-critical components
+const RelatedEvents = lazy(() => import("@/components/related-events"))
 
 export default function EventPage() {
   const params = useParams()
@@ -65,7 +67,9 @@ export default function EventPage() {
       </div>
 
       {/* Related Events */}
-      <RelatedEvents eventId={eventId} />
+      <Suspense fallback={<div className="h-96 bg-muted/30 animate-pulse" />}>
+        <RelatedEvents eventId={eventId} />
+      </Suspense>
 
       <Footer />
     </main>

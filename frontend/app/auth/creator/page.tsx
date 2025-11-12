@@ -16,17 +16,28 @@ export default function CreatorAuthPage() {
   const [name, setName] = useState("")
   const [companyName, setCompanyName] = useState("")
   const [isSignUp, setIsSignUp] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
   const { login, signup } = useAuth()
   const router = useRouter()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (isSignUp) {
-      signup(companyName || name, email, password, "creator")
-    } else {
-      login(email, password, "creator")
+    setLoading(true)
+    setError("")
+    
+    try {
+      if (isSignUp) {
+        await signup(companyName || name, email, password, "creator")
+      } else {
+        await login(email, password, "creator")
+      }
+      router.push("/")
+    } catch (err: any) {
+      setError(err.message || "Authentication failed")
+    } finally {
+      setLoading(false)
     }
-    router.push("/dashboard/creator")
   }
 
   return (
@@ -46,6 +57,12 @@ export default function CreatorAuthPage() {
           <p className="text-muted-foreground mb-8">
             {isSignUp ? "Start creating and selling tickets" : "Sign in to your creator dashboard"}
           </p>
+
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm mb-4">
+              {error}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {isSignUp && (
@@ -98,8 +115,12 @@ export default function CreatorAuthPage() {
               />
             </div>
 
-            <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground mt-6">
-              {isSignUp ? "Create Account" : "Sign In"}
+            <Button 
+              type="submit" 
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground mt-6"
+              disabled={loading}
+            >
+              {loading ? "Please wait..." : (isSignUp ? "Create Account" : "Sign In")}
             </Button>
           </form>
 
