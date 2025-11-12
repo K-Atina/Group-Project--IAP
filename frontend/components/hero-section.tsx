@@ -39,14 +39,17 @@ export default function HeroSection() {
                 Browse Events
               </Button>
             </Link>
-            <Link href={user?.role === "creator" ? "/dashboard/creator" : "/auth/creator"}>
-              <Button
-                variant="outline"
-                className="border-2 border-white text-white hover:bg-white/20 px-8 py-3 text-lg h-auto rounded-lg bg-transparent w-full sm:w-auto"
-              >
-                Create Tickets
-              </Button>
-            </Link>
+            {/* Only show Create Tickets button for creators or non-logged-in users */}
+            {(!user || user.role === "creator") && (
+              <Link href={user?.role === "creator" ? "/dashboard/creator" : "/auth/creator"}>
+                <Button
+                  variant="outline"
+                  className="border-2 border-white text-white hover:bg-white/20 px-8 py-3 text-lg h-auto rounded-lg bg-transparent w-full sm:w-auto"
+                >
+                  Create Tickets
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

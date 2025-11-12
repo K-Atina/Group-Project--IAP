@@ -13,6 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
+// Start session
+session_start();
+
 require_once __DIR__ . '/../src/Config/Database.php';
 require_once __DIR__ . '/../src/Models/User.php';
 require_once __DIR__ . '/../src/Services/EmailService.php';
@@ -90,36 +93,28 @@ try {
 }
 
 function handleLogin($user, $input) {
-    session_start();
-    
     $email = $input['email'] ?? '';
     $password = $input['password'] ?? '';
-    $userType = $input['userType'] ?? 'buyer';
     
     if (empty($email) || empty($password)) {
         throw new Exception('Email and password are required');
     }
     
-    $result = $user->loginWithVerification($email, $password);
+    $result = $user->login($email, $password);
     
     if ($result['success']) {
         $_SESSION['user_id'] = $result['user']['id'];
-        $_SESSION['user'] = $result['user']['full_name'];
+        $_SESSION['user_name'] = $result['user']['name'];
         $_SESSION['user_email'] = $result['user']['email'];
-        $_SESSION['user_type'] = $userType;
+        $_SESSION['user_type'] = $result['user']['type'];
         
         echo json_encode([
             'success' => true,
-            'user' => [
-                'id' => $result['user']['id'],
-                'name' => $result['user']['full_name'],
-                'email' => $result['user']['email'],
-                'type' => $userType,
-                'verified' => (bool)$result['user']['email_verified']
-            ],
+            'user' => $result['user'],
             'message' => 'Login successful'
         ]);
     } else {
+        http_response_code(401);
         throw new Exception($result['message']);
     }
 }
@@ -138,22 +133,36 @@ function handleSignup($user, $emailService, $input) {
         throw new Exception('Password must be at least 8 characters long');
     }
     
-    $result = $user->registerWithVerification($name, $email, $password);
+    // Validate email format
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        throw new Exception('Invalid email format');
+    }
+    
+    // Use registration with verification
+    $result = $user->registerWithVerification($name, $email, $password, $userType);
     
     if ($result['success']) {
         // Send verification email
         $emailSent = $emailService->sendVerificationEmail(
-            $email, 
-            $name, 
-            $result['token']
+            $email,
+            $result['verification_token'],
+            $name
         );
+        
+        // Auto-login after successful registration (even if not verified yet)
+        $_SESSION['user_id'] = $result['user']['id'];
+        $_SESSION['user_name'] = $result['user']['name'];
+        $_SESSION['user_email'] = $result['user']['email'];
+        $_SESSION['user_type'] = $result['user']['type'];
         
         echo json_encode([
             'success' => true,
-            'message' => 'Registration successful! Please check your email for verification.',
-            'emailSent' => $emailSent
+            'user' => $result['user'],
+            'message' => 'Registration successful! Please check your email to verify your account.',
+            'email_sent' => $emailSent
         ]);
     } else {
+        http_response_code(400);
         throw new Exception($result['message']);
     }
 }
@@ -214,9 +223,8 @@ function handleResendVerification($user, $emailService, $input) {
 }
 
 function handleGetUser($user) {
-    session_start();
-    
     if (!isset($_SESSION['user_id'])) {
+        http_response_code(401);
         echo json_encode([
             'success' => false,
             'message' => 'Not authenticated'
@@ -224,20 +232,15 @@ function handleGetUser($user) {
         return;
     }
     
-    $userData = $user->getUserById($_SESSION['user_id']);
+    $result = $user->getUserById($_SESSION['user_id']);
     
-    if ($userData) {
+    if ($result['success']) {
         echo json_encode([
             'success' => true,
-            'user' => [
-                'id' => $userData['id'],
-                'name' => $userData['full_name'],
-                'email' => $userData['email'],
-                'type' => $_SESSION['user_type'] ?? 'buyer',
-                'verified' => (bool)$userData['email_verified']
-            ]
+            'user' => $result['user']
         ]);
     } else {
+        http_response_code(404);
         echo json_encode([
             'success' => false,
             'message' => 'User not found'
