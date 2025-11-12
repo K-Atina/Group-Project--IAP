@@ -77,7 +77,7 @@ export default function Header({ onOpenChat }: HeaderProps) {
             <button
               onClick={() => navigateTo("/#home")}
               className={`transition-all duration-300 cursor-pointer hover:scale-105 font-medium ${
-                pathname === '/' && (window.location.hash === '#home' || !window.location.hash) 
+                pathname === '/' && (typeof window !== 'undefined' && (window.location.hash === '#home' || !window.location.hash))
                   ? 'text-primary' 
                   : 'text-foreground hover:text-primary'
               }`}
@@ -107,7 +107,7 @@ export default function Header({ onOpenChat }: HeaderProps) {
             <button
               onClick={() => navigateTo("/#about")}
               className={`transition-all duration-300 cursor-pointer hover:scale-105 font-medium ${
-                pathname === '/' && window.location.hash === '#about'
+                pathname === '/' && (typeof window !== 'undefined' && window.location.hash === '#about')
                   ? 'text-primary' 
                   : 'text-foreground hover:text-primary'
               }`}
@@ -117,7 +117,7 @@ export default function Header({ onOpenChat }: HeaderProps) {
             <button
               onClick={() => navigateTo("/#contact")}
               className={`transition-all duration-300 cursor-pointer hover:scale-105 font-medium ${
-                pathname === '/' && window.location.hash === '#contact'
+                pathname === '/' && (typeof window !== 'undefined' && window.location.hash === '#contact')
                   ? 'text-primary' 
                   : 'text-foreground hover:text-primary'
               }`}
